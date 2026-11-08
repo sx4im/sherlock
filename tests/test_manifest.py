@@ -37,3 +37,10 @@ def test_validate_manifest_against_remote_schema(remote_schema):
 ])
 def test_site_list_iterability (sites_info, target_name, target_expected_err_type):
     assert sites_info[target_name]['errorType'] == target_expected_err_type
+
+def test_discord_url_contains_username_placeholder(sites_info):
+    """The reported profile URL comes from interpolating the site's `url`
+    template with the username; without a {} placeholder it degrades to
+    the site homepage (issue #3186)."""
+    assert "{}" in sites_info["Discord"]["url"]
+    assert sites_info["Discord"]["url"].replace("{}", "chechyotka") == "https://discord.com/@chechyotka"
